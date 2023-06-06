@@ -8,7 +8,7 @@ const Home = ({ isAuth }) => {
     const [expenseTitle, setExpenseTitle] = useState("");
     const [expenseAmount, setExpenseAmount] = useState("");
     const [expenseDate, setExpenseDate] = useState(new Date().toJSON().slice(0, 10));
-    const [incomeTitle, setIncomeTitle] = useState();
+    const [incomeTitle, setIncomeTitle] = useState("");
     const [incomeAmount, setIncomeAmount] = useState("");
     const [incomeDate, setIncomeDate] = useState(new Date().toJSON().slice(0, 10));
     const [day, setDay] = useState("");
@@ -36,13 +36,14 @@ const Home = ({ isAuth }) => {
             title: expenseTitle,
             amount: expenseAmount,
             date: expenseDate,
-        })
+        });
 
         console.log("Expense added", [expenseTitle, expenseAmount, expenseDate]);
         setExpenseTitle("");
         setExpenseAmount("");
         setExpenseDate("");
-    }
+    };
+
     const handleIncomes = async (e) => {
         e.preventDefault();
         if (incomeTitle === "" || incomeAmount === "" || incomeDate === "") {
@@ -54,25 +55,25 @@ const Home = ({ isAuth }) => {
             title: incomeTitle,
             amount: incomeAmount,
             date: incomeDate,
-        })
+        });
 
         console.log("Income added", [incomeTitle, incomeAmount, incomeDate]);
         setIncomeTitle("");
         setIncomeAmount("");
         setIncomeDate("");
-    }
+    };
 
     const handleDay = (e) => {
         const value = e.target.value;
         setDay(value);
         if (value !== "other") {
             setExpenseDate(new Date().toJSON().slice(0, 10));
-            setToggleCalendar(false)
+            setToggleCalendar(false);
         }
         else {
             setToggleCalendar(true);
         }
-    }
+    };
 
     return (
         <div className="main-container">
@@ -91,7 +92,9 @@ const Home = ({ isAuth }) => {
                             <option value={new Date().toJSON().slice(0, 10).replace(/-/g, "/")}>Today</option>
                             <option value="other">Other day</option>
                         </select>
-                        <input type="date" className="calendar-input" value={expenseDate} onChange={(e) => setExpenseDate(e.target.value)} />
+                        {toggleCalendar && (
+                            <input type="date" className="calendar-input" value={expenseDate} onChange={(e) => setExpenseDate(e.target.value)} />
+                        )}
                         <button type="submit">Add Expense</button>
                     </form>
                 </div>
@@ -107,7 +110,9 @@ const Home = ({ isAuth }) => {
                             <option value={new Date().toJSON().slice(0, 10).replace(/-/g, "/")}>Today</option>
                             <option value="other">Other day</option>
                         </select>
-                        <input type="date" className="calendar-input" value={incomeDate} onChange={(e) => setIncomeDate(e.target.value)} />
+                        {toggleCalendar && (
+                            <input type="date" className="calendar-input" value={incomeDate} onChange={(e) => setIncomeDate(e.target.value)} />
+                        )}
                         <button type="submit">Add Income</button>
                     </form>
                 </div>
@@ -117,4 +122,3 @@ const Home = ({ isAuth }) => {
 };
 
 export default Home;
-
